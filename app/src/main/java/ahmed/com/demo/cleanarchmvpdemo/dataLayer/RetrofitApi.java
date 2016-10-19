@@ -16,11 +16,8 @@ import retrofit2.http.GET;
  */
 public interface RetrofitApi {
 
-//    @GET("/feeds/flowers.json")
-//    void getFlowers(Call<ArrayList<FlowerEntity>> Response);
-
     /**
-     * method to get flower Entity as Array list
+     * method to get flower Entity as Array list from url
      * @return
      */
     @GET("/feeds/flowers.json")
