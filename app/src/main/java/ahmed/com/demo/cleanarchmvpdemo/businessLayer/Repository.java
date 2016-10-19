@@ -1,5 +1,9 @@
 package ahmed.com.demo.cleanarchmvpdemo.businessLayer;
 
+import java.util.ArrayList;
+
+import ahmed.com.demo.cleanarchmvpdemo.dataLayer.FlowerEntity;
+
 /**
  * Created by Ahmed Nabil on 10/19/2016.
  */
@@ -13,5 +17,12 @@ package ahmed.com.demo.cleanarchmvpdemo.businessLayer;
  */
 public interface Repository {
 
+    void getRetrofitApi();
+
+
+    public interface DataCallback {
+
+        void getRetrofitCallback(ArrayList<FlowerEntity> flowerEntities, Boolean isSuccess,String error);
+    }
 
 }

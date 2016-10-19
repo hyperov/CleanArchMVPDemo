@@ -8,8 +8,11 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 import ahmed.com.demo.cleanarchmvpdemo.R;
+import ahmed.com.demo.cleanarchmvpdemo.businessLayer.Repository;
+import ahmed.com.demo.cleanarchmvpdemo.businessLayer.UseCase;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * View class in MVP(Model View Presenter) pattern..in presentation layer
@@ -18,11 +21,16 @@ import butterknife.InjectView;
 public class MainActivity extends AppCompatActivity {
 
 
+    UseCase useCase;
+    Repository repository;
+
+
     @InjectView(R.id.fab)
     FloatingActionButton fab;
 
     @InjectView(R.id.listview)
     ListView listView;
+    private Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +38,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
+        //
+        presenter = new Presenter();
 
+
+    }
+
+    @OnClick(R.id.fab)
+    void fabClick() {
+        presenter.onClickEvent();
+    }
+
+    /**
+     * events from presentation layer
+     */
+    public interface ViewEvent {
+
+        void onClickEvent();
     }
 
 

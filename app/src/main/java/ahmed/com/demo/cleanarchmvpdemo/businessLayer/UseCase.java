@@ -24,13 +24,20 @@ public interface UseCase {
     //presentation to data layer
     void fabClickEvent();
 
-    //data to presentation layer
-    //recieve data if success response
-    void getDataSuccess();
+    interface UseCaseCallback {
 
-    //data to presentation layer
-    //receive failure message
-    void getDataFailure();
+        /**
+         * data to presentation layer
+         * recieve data if success response
+         */
+        void getDataSuccess();
+
+        /**
+         * data to presentation layer
+         * receive failure message
+         */
+        void getDataFailure();
+    }
 
 
     /**
