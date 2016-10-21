@@ -7,7 +7,6 @@ package ahmed.com.demo.cleanarchmvpdemo.businessLayer;
 import java.util.ArrayList;
 
 import ahmed.com.demo.cleanarchmvpdemo.dataLayer.FlowerEntity;
-import ahmed.com.demo.cleanarchmvpdemo.dataLayer.RepositoryImp;
 import ahmed.com.demo.cleanarchmvpdemo.presentationLayer.Presenter;
 
 /**
@@ -17,17 +16,17 @@ import ahmed.com.demo.cleanarchmvpdemo.presentationLayer.Presenter;
  */
 public class UseCaseImp implements UseCase, Repository.DataCallback {
 
-    RepositoryImp repositoryImp;
+    Repository repository;
     Presenter presenter ;
 
-    public UseCaseImp(RepositoryImp repositoryImp){
-        this.repositoryImp=repositoryImp;
+    public UseCaseImp(Repository repository){
+        this.repository=repository;
         this.presenter=new Presenter(this);
     }
 
     @Override
     public void fabClickEvent() {
-        repositoryImp.getRetrofitApi();
+        repository.getRetrofitApi();
     }
 
     //for future upgrade

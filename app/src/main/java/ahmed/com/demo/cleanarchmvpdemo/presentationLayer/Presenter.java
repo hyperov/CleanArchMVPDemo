@@ -8,7 +8,6 @@ package ahmed.com.demo.cleanarchmvpdemo.presentationLayer;
 import java.util.ArrayList;
 
 import ahmed.com.demo.cleanarchmvpdemo.businessLayer.UseCase;
-import ahmed.com.demo.cleanarchmvpdemo.businessLayer.UseCaseImp;
 import ahmed.com.demo.cleanarchmvpdemo.dataLayer.FlowerEntity;
 
 /**
@@ -16,18 +15,20 @@ import ahmed.com.demo.cleanarchmvpdemo.dataLayer.FlowerEntity;
  * [Clean Architecture]
  */
 public class Presenter implements UseCase.UseCaseCallback {
-    UseCaseImp useCaseImp;
-    MainActivity mainActivity;
+    //
+    private UseCase useCase;
+    private MainActivity mainActivity;
 
-    public Presenter(UseCaseImp useCaseImp) {
-        this.useCaseImp = useCaseImp;
+    public Presenter(UseCase useCase) {
+        this.useCase = useCase;
         mainActivity = new MainActivity();
 //        this.mainActivity=mainActivity;
     }
 
 
     public void onClickEvent() {
-        ((UseCase) useCaseImp).fabClickEvent();
+//        ((UseCase) useCaseImp).fabClickEvent();
+        useCase.fabClickEvent();
 
     }
 
@@ -35,6 +36,7 @@ public class Presenter implements UseCase.UseCaseCallback {
     @Override
     public void getDataSuccess(ArrayList<FlowerEntity> flowerEntities) {
         ((ViewCallback) mainActivity).fabClickCallbackSuccess(flowerEntities);
+        
     }
 
     //callback failure
