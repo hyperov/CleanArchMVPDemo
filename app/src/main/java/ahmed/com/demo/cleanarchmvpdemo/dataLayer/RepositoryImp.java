@@ -31,15 +31,15 @@ public class RepositoryImp implements Repository {
     private ArrayList<FlowerEntity> flowerEntities;
     private String responseError = "";
 
-    Retrofit retrofit = new Retrofit.Builder().baseUrl("https://services.hanselandpetal.com").
-            addConverterFactory(GsonConverterFactory.create()).build();
-
-    RetrofitApi retrofitApi = retrofit.create(RetrofitApi.class);
-
 
     public void getRetrofitApi() {
 
-        useCaseImp = new UseCaseImp();
+        useCaseImp = new UseCaseImp(this);
+
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://services.hanselandpetal.com").
+                addConverterFactory(GsonConverterFactory.create()).build();
+
+        RetrofitApi retrofitApi = retrofit.create(RetrofitApi.class);
 
         Call<ArrayList<FlowerEntity>> call = retrofitApi.getFlowers();
         call.enqueue(new Callback<ArrayList<FlowerEntity>>() {

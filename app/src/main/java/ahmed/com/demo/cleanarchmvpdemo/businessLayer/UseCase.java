@@ -1,5 +1,9 @@
 package ahmed.com.demo.cleanarchmvpdemo.businessLayer;
 
+import java.util.ArrayList;
+
+import ahmed.com.demo.cleanarchmvpdemo.dataLayer.FlowerEntity;
+
 /**
  * Created by Ahmed Nabil on 10/19/2016.
  */
@@ -30,13 +34,13 @@ public interface UseCase {
          * data to presentation layer
          * recieve data if success response
          */
-        void getDataSuccess();
+        void getDataSuccess(ArrayList<FlowerEntity> flowerEntities);
 
         /**
          * data to presentation layer
          * receive failure message
          */
-        void getDataFailure();
+        void getDataFailure(String error);
     }
 
 

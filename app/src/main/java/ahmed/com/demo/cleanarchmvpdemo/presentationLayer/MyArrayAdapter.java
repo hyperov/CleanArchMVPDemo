@@ -56,7 +56,7 @@ public class MyArrayAdapter extends ArrayAdapter<FlowerEntity> {
 
     @NonNull
     @Override
-    public View getView(int position, View convertView,@NonNull ViewGroup parent) {
+    public View getView(int position, View convertView,ViewGroup parent) {
 
         View view;
         if (convertView == null) {
@@ -72,14 +72,14 @@ public class MyArrayAdapter extends ArrayAdapter<FlowerEntity> {
         viewHolder.name.setText(flowerEntityArrayList.get(position).getName());
         Picasso.with(context).
                 load("http://services.hanselandpetal.com/photos/"+
-                        flowerEntityArrayList.get(position).getPhoto()).into(viewHolder.img);
+                        flowerEntityArrayList.get(position).getPhoto()).placeholder(R.mipmap.ic_launcher).into(viewHolder.img);
 
         //add list item layout and bind views
         return view;
     }
 
 
-   private class ViewHolder {
+    class ViewHolder {
         @InjectView(R.id.img)
         ImageView img;
         @InjectView(R.id.name)
