@@ -53,8 +53,6 @@ public class MainActivity extends AppCompatActivity implements ViewCallback {
         ButterKnife.inject(this);
         App.getAppComponent().inject(this);
 
-        //
-//        presenter = new Presenter();
 
 
     }

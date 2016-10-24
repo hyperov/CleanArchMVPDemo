@@ -50,6 +50,7 @@ public class AppModule {
 
 
     @Provides
+    @Singleton
     @Named("event")
     public UseCase provideUseCase() {
 //        return new UseCaseImp();
@@ -64,6 +65,7 @@ public class AppModule {
 
 
     @Provides
+    @Singleton
     @Named("callback")
     public DataCallback provideDataCallback() {
         return new UseCaseImp();

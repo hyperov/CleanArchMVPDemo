@@ -13,6 +13,7 @@ import javax.inject.Named;
 
 import ahmed.com.demo.cleanarchmvpdemo.application.App;
 import ahmed.com.demo.cleanarchmvpdemo.businessLayer.Repository;
+import dagger.Lazy;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,20 +39,16 @@ public class RepositoryImp implements Repository {
     //Callback
     @Inject
     @Named("callback")
-    DataCallback useCaseDataCallback;
+    Lazy<DataCallback> useCaseDataCallback;
 
 
     //    @Inject
     public RepositoryImp() {
-//        App.getAppComponent().inject(this);
+        App.getAppComponent().inject(this);
     }
 
 
     public void getRetrofitApi() {
-        App.getAppComponent().inject(this);
-
-
-//        useCaseImp = new UseCaseImp();
 
 
         RetrofitApi retrofitApi = retrofit.create(RetrofitApi.class);
@@ -62,11 +59,11 @@ public class RepositoryImp implements Repository {
             public void onResponse(Call<ArrayList<FlowerEntity>> call, Response<ArrayList<FlowerEntity>> response) {
                 if (response.isSuccessful()) {
                     flowerEntities = response.body();
-                    useCaseDataCallback.getRetrofitCallback(flowerEntities, true, "success");
+                    useCaseDataCallback.get().getRetrofitCallback(flowerEntities, true, "success");
 
                 } else { // error in retrieving response
                     responseError = response.errorBody().toString();
-                    useCaseDataCallback.getRetrofitCallback(flowerEntities, false, responseError);
+                    useCaseDataCallback.get().getRetrofitCallback(flowerEntities, false, responseError);
                     Log.d(RETROFIT_TAG, "onResponse: " + responseError);
                 }
             }
@@ -74,7 +71,7 @@ public class RepositoryImp implements Repository {
             @Override
             public void onFailure(Call<ArrayList<FlowerEntity>> call, Throwable t) {
                 Log.e(RETROFIT_TAG, "onFailure: " + t.getMessage(), t);
-                useCaseDataCallback.getRetrofitCallback(flowerEntities, false, t.getMessage());
+                useCaseDataCallback.get().getRetrofitCallback(flowerEntities, false, t.getMessage());
             }
         });
         //TODO

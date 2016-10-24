@@ -22,14 +22,14 @@ public class UseCaseImp implements UseCase, Repository.DataCallback {
 
 
     @Inject
-    Repository repository;
+    Lazy<Repository> repository;
 
     //callback
     @Inject
     Lazy<Presenter> presenter;
 
 
-//    @Inject
+    //    @Inject
     public UseCaseImp() {
         App.getAppComponent().inject(this);
 
@@ -38,7 +38,7 @@ public class UseCaseImp implements UseCase, Repository.DataCallback {
 
     @Override
     public void fabClickEvent() {
-        repository.getRetrofitApi();
+        repository.get().getRetrofitApi();
     }
 
     //for future upgrade

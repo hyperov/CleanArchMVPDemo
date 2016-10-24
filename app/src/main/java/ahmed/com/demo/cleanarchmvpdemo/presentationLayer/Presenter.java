@@ -23,7 +23,8 @@ public class Presenter implements UseCase.UseCaseCallback {
     //
     @Inject
     @Named("event")
-   Lazy<UseCase> useCase;
+    Lazy<UseCase> useCase;
+
     @Inject
     MainActivity mainActivity;
 
