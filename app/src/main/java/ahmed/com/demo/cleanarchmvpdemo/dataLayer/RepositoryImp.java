@@ -8,13 +8,15 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import ahmed.com.demo.cleanarchmvpdemo.application.App;
 import ahmed.com.demo.cleanarchmvpdemo.businessLayer.Repository;
-import ahmed.com.demo.cleanarchmvpdemo.businessLayer.UseCaseImp;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Repository implementation follows the repository pattern
@@ -24,20 +26,33 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RepositoryImp implements Repository {
 
-    private UseCaseImp useCaseImp;
 
     private static final String RETROFIT_TAG = "Retrofit";
 
     private ArrayList<FlowerEntity> flowerEntities;
     private String responseError = "";
 
+    @Inject
+    Retrofit retrofit;
+
+    //Callback
+    @Inject
+    @Named("callback")
+    DataCallback useCaseDataCallback;
+
+
+    //    @Inject
+    public RepositoryImp() {
+//        App.getAppComponent().inject(this);
+    }
+
 
     public void getRetrofitApi() {
+        App.getAppComponent().inject(this);
 
-        useCaseImp = new UseCaseImp(this);
 
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://services.hanselandpetal.com").
-                addConverterFactory(GsonConverterFactory.create()).build();
+//        useCaseImp = new UseCaseImp();
+
 
         RetrofitApi retrofitApi = retrofit.create(RetrofitApi.class);
 
@@ -47,11 +62,11 @@ public class RepositoryImp implements Repository {
             public void onResponse(Call<ArrayList<FlowerEntity>> call, Response<ArrayList<FlowerEntity>> response) {
                 if (response.isSuccessful()) {
                     flowerEntities = response.body();
-                    useCaseImp.getRetrofitCallback(flowerEntities, true, "success");
+                    useCaseDataCallback.getRetrofitCallback(flowerEntities, true, "success");
 
                 } else { // error in retrieving response
                     responseError = response.errorBody().toString();
-                    useCaseImp.getRetrofitCallback(flowerEntities, false, responseError);
+                    useCaseDataCallback.getRetrofitCallback(flowerEntities, false, responseError);
                     Log.d(RETROFIT_TAG, "onResponse: " + responseError);
                 }
             }
@@ -59,7 +74,7 @@ public class RepositoryImp implements Repository {
             @Override
             public void onFailure(Call<ArrayList<FlowerEntity>> call, Throwable t) {
                 Log.e(RETROFIT_TAG, "onFailure: " + t.getMessage(), t);
-                useCaseImp.getRetrofitCallback(flowerEntities, false, t.getMessage());
+                useCaseDataCallback.getRetrofitCallback(flowerEntities, false, t.getMessage());
             }
         });
         //TODO

@@ -7,8 +7,13 @@ package ahmed.com.demo.cleanarchmvpdemo.presentationLayer;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import ahmed.com.demo.cleanarchmvpdemo.application.App;
 import ahmed.com.demo.cleanarchmvpdemo.businessLayer.UseCase;
 import ahmed.com.demo.cleanarchmvpdemo.dataLayer.FlowerEntity;
+import dagger.Lazy;
 
 /**
  * Presenter class in MVP(Model View Presenter) pattern..in presentation layer
@@ -16,32 +21,37 @@ import ahmed.com.demo.cleanarchmvpdemo.dataLayer.FlowerEntity;
  */
 public class Presenter implements UseCase.UseCaseCallback {
     //
-    private UseCase useCase;
-    private MainActivity mainActivity;
+    @Inject
+    @Named("event")
+   Lazy<UseCase> useCase;
+    @Inject
+    MainActivity mainActivity;
 
-    public Presenter(UseCase useCase) {
-        this.useCase = useCase;
-        mainActivity = new MainActivity();
+    @Inject
+    public Presenter() {
+        App.getAppComponent().inject(this);
 //        this.mainActivity=mainActivity;
     }
 
 
     public void onClickEvent() {
-//        ((UseCase) useCaseImp).fabClickEvent();
-        useCase.fabClickEvent();
+//        ((UseCase) useCase).fabClickEvent();
+        useCase.get().fabClickEvent();
 
     }
 
     //callback success
     @Override
     public void getDataSuccess(ArrayList<FlowerEntity> flowerEntities) {
+//        mainActivity = new MainActivity();
         ((ViewCallback) mainActivity).fabClickCallbackSuccess(flowerEntities);
-        
+
     }
 
     //callback failure
     @Override
     public void getDataFailure(String error) {
+//        mainActivity = new MainActivity();
         ((ViewCallback) mainActivity).fabClickCallbackFailure(error);
     }
 

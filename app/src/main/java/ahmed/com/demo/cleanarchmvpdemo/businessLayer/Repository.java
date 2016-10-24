@@ -20,7 +20,7 @@ public interface Repository {
     void getRetrofitApi();
 
 
-    public interface DataCallback {
+     interface DataCallback {
 
         void getRetrofitCallback(ArrayList<FlowerEntity> flowerEntities, Boolean isSuccess,String error);
     }

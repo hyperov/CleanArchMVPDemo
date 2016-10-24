@@ -6,8 +6,12 @@ package ahmed.com.demo.cleanarchmvpdemo.businessLayer;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
+import ahmed.com.demo.cleanarchmvpdemo.application.App;
 import ahmed.com.demo.cleanarchmvpdemo.dataLayer.FlowerEntity;
 import ahmed.com.demo.cleanarchmvpdemo.presentationLayer.Presenter;
+import dagger.Lazy;
 
 /**
  * Use Case Implementation
@@ -16,12 +20,20 @@ import ahmed.com.demo.cleanarchmvpdemo.presentationLayer.Presenter;
  */
 public class UseCaseImp implements UseCase, Repository.DataCallback {
 
-    Repository repository;
-    Presenter presenter ;
 
-    public UseCaseImp(Repository repository){
-        this.repository=repository;
-        this.presenter=new Presenter(this);
+    @Inject
+    Repository repository;
+
+    //callback
+    @Inject
+    Lazy<Presenter> presenter;
+
+
+//    @Inject
+    public UseCaseImp() {
+        App.getAppComponent().inject(this);
+
+
     }
 
     @Override
@@ -37,10 +49,11 @@ public class UseCaseImp implements UseCase, Repository.DataCallback {
 
     @Override
     public void getRetrofitCallback(ArrayList<FlowerEntity> flowerEntities, Boolean isSuccess, String error) {
+//        presenter = new Presenter();
         if (flowerEntities != null && isSuccess) {
-            presenter.getDataSuccess(flowerEntities);
+            presenter.get().getDataSuccess(flowerEntities);
         } else {
-            presenter.getDataFailure(error);
+            presenter.get().getDataFailure(error);
         }
     }
 }

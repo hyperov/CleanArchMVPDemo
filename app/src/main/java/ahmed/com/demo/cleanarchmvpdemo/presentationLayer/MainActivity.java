@@ -14,11 +14,11 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import ahmed.com.demo.cleanarchmvpdemo.R;
-import ahmed.com.demo.cleanarchmvpdemo.businessLayer.UseCase;
-import ahmed.com.demo.cleanarchmvpdemo.businessLayer.UseCaseImp;
+import ahmed.com.demo.cleanarchmvpdemo.application.App;
 import ahmed.com.demo.cleanarchmvpdemo.dataLayer.FlowerEntity;
-import ahmed.com.demo.cleanarchmvpdemo.dataLayer.RepositoryImp;
 import ahmed.com.demo.cleanarchmvpdemo.presentationLayer.Presenter.ViewCallback;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -30,11 +30,12 @@ import butterknife.OnClick;
  */
 public class MainActivity extends AppCompatActivity implements ViewCallback {
 
-    UseCase useCase;
+//    UseCase useCase;
     //    Repository repository;
+    @Inject
     Presenter presenter;
 
-    //    UseCaseImp useCaseImp;
+    //    UseCaseImp useCase;
 
     MyArrayAdapter myArrayAdapter;
 
@@ -50,9 +51,10 @@ public class MainActivity extends AppCompatActivity implements ViewCallback {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
+        App.getAppComponent().inject(this);
 
         //
-        presenter = new Presenter(new UseCaseImp(new RepositoryImp()));
+//        presenter = new Presenter();
 
 
     }
@@ -62,6 +64,12 @@ public class MainActivity extends AppCompatActivity implements ViewCallback {
         /* Do something */
         myArrayAdapter = new MyArrayAdapter(this, R.layout.list_item, flowerEntities);
         listView.setAdapter(myArrayAdapter);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(String error) {
+        /* Do something */
+        Toast.makeText(this, error, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -92,7 +100,8 @@ public class MainActivity extends AppCompatActivity implements ViewCallback {
     //callback failure
     @Override
     public void fabClickCallbackFailure(String error) {
-        Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+        EventBus.getDefault().post(error);
+
     }
 
 
